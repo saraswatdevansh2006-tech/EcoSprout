@@ -9,12 +9,7 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy';
 // Initialize Supabase with the Service Role Key to bypass RLS for background jobs
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Configure web-push
-webpush.setVapidDetails(
-  'mailto:test@example.com',
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
-);
+
 
 const DAILY_BUDGET_KG = 6;
 
@@ -74,6 +69,12 @@ Make it sound like it's coming directly from Sprout.`;
     }
 
     // 4. Send push notification to all subscribers
+    webpush.setVapidDetails(
+      'mailto:test@example.com',
+      process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+      process.env.VAPID_PRIVATE_KEY!
+    );
+
     const payload = JSON.stringify({
       title: 'Sprout Update 🌱',
       body: aiMessage,
