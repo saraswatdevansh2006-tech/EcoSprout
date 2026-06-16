@@ -13,7 +13,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const DAILY_BUDGET_KG = 6;
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     // 1. Fetch transactions from the last 30 days to calculate score
     const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();

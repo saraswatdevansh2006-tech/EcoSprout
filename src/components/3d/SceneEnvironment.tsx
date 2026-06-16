@@ -5,6 +5,15 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { HealthState } from "@/store/carbon-store";
 
+/* ─── Deterministic Pseudo-Random Number Generator ─── */
+const createRandom = (seed: number) => {
+  let s = seed;
+  return () => {
+    const x = Math.sin(s++) * 10000;
+    return x - Math.floor(x);
+  };
+};
+
 /* ─── Sky/Fog Colors per State & Time ─── */
 const ENV_COLORS = {
   day: {
@@ -53,16 +62,20 @@ function Particles({ healthState }: { healthState: HealthState }) {
   const meshRef = useRef<THREE.InstancedMesh>(null!);
 
   const positions = useMemo(() => {
+    const rand = createRandom(1);
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 6;
-      arr[i * 3 + 1] = Math.random() * 4 - 0.5;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 6;
+      arr[i * 3] = (rand() - 0.5) * 6;
+      arr[i * 3 + 1] = rand() * 4 - 0.5;
+      arr[i * 3 + 2] = (rand() - 0.5) * 6;
     }
     return arr;
   }, []);
 
-  const speeds = useMemo(() => Array.from({ length: count }, () => 0.2 + Math.random() * 0.6), []);
+  const speeds = useMemo(() => {
+    const rand = createRandom(2);
+    return Array.from({ length: count }, () => 0.2 + rand() * 0.6);
+  }, []);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   useFrame((state) => {
@@ -103,14 +116,16 @@ function Particles({ healthState }: { healthState: HealthState }) {
 function Butterflies() {
   const count = 5;
   const groupRef = useRef<THREE.Group>(null!);
-  const dummy = useMemo(() => new THREE.Object3D(), []);
   
-  const butterflyData = useMemo(() => Array.from({ length: count }, () => ({
-    speed: 0.5 + Math.random() * 0.5,
-    offset: Math.random() * Math.PI * 2,
-    radius: 1.5 + Math.random() * 1.5,
-    yOffset: Math.random() * 2
-  })), []);
+  const butterflyData = useMemo(() => {
+    const rand = createRandom(3);
+    return Array.from({ length: count }, () => ({
+      speed: 0.5 + rand() * 0.5,
+      offset: rand() * Math.PI * 2,
+      radius: 1.5 + rand() * 1.5,
+      yOffset: rand() * 2
+    }));
+  }, []);
 
   useFrame((state) => {
     if (!groupRef.current) return;
@@ -172,7 +187,7 @@ function SkyDome({ healthState, timePhase }: { healthState: HealthState, timePha
       uTopColor: { value: targetTop.clone() },
       uBottomColor: { value: targetBottom.clone() },
     }),
-    [] // Keep reference same
+    [targetTop, targetBottom]
   );
 
   useFrame((_, delta) => {

@@ -64,8 +64,9 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         });
         if (error) throw error;
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || "Authentication failed");
+    } catch (err: unknown) {
+      const error = err as Error;
+      setErrorMsg(error.message || "Authentication failed");
     } finally {
       setIsSubmitting(false);
     }
@@ -84,8 +85,9 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         },
       });
       if (error) throw error;
-    } catch (err: any) {
-      setErrorMsg(err.message || `Failed to sign in with ${provider}`);
+    } catch (err: unknown) {
+      const error = err as Error;
+      setErrorMsg(error.message || `Failed to sign in with ${provider}`);
       setIsSubmitting(false);
     }
   };
@@ -114,7 +116,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
               EcoSprout
             </h1>
             <p className="text-[var(--text-muted)] mt-2">
-              Sign in to secure your plant's data.
+              {"Sign in to secure your plant's data."}
             </p>
           </div>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiOutlineBellAlert, HiOutlinePaperAirplane } from 'react-icons/hi2';
+import { HiOutlineBellAlert } from 'react-icons/hi2';
 import { supabase } from '@/lib/supabase';
 
 const urlBase64ToUint8Array = (base64String: string) => {
@@ -84,8 +84,9 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
       }
       
       showStatus("Subscribed successfully!");
-    } catch (err: any) {
-      if (Notification.permission === 'denied' || err.name === 'NotAllowedError' || err.message?.includes('permission denied')) {
+    } catch (err: unknown) {
+      const error = err as Error;
+      if (Notification.permission === 'denied' || error.name === 'NotAllowedError' || error.message?.includes('permission denied')) {
         showStatus("Notifications are blocked by your browser.", "error");
       } else {
         showStatus("Failed to enable push notifications.", "error");
@@ -148,6 +149,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
         });
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -175,7 +177,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
                 Stay Updated! 🌱
               </h3>
               <p className="text-sm text-[var(--text-secondary)] mb-6">
-                Enable daily nudges to keep your eco-plant thriving. We'll only send one quick reminder a day!
+                {"Enable daily nudges to keep your eco-plant thriving. We'll only send one quick reminder a day!"}
               </p>
               
               <div className="flex w-full gap-3">

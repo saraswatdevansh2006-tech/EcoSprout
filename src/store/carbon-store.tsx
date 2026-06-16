@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 /* ─── Types ─── */
 export type HealthState = "thriving" | "struggling" | "wilting";
@@ -34,10 +35,10 @@ interface CarbonState {
   monthlyScore: number;
   isLoadingData: boolean;
   timePhase: "day" | "evening" | "night";
-  user: any | null; // using any to avoid importing User type in store, or we can just import it
+  user: User | null; // using User from @supabase/supabase-js
   
   setActiveView: (view: "dashboard" | "analytics") => void;
-  setUser: (user: any | null) => void;
+  setUser: (user: User | null) => void;
   addTransaction: (tx: Omit<Transaction, "id" | "timestamp">) => void;
   addNotification: (notif: Omit<Notification, "id" | "timestamp">) => void;
   fetchData: () => Promise<void>;
@@ -106,7 +107,7 @@ function computeMetrics(txs: Transaction[]) {
 }
 
 /* ─── Zustand Store ─── */
-export const useCarbonStore = create<CarbonState>((set, get) => ({
+export const useCarbonStore = create<CarbonState>((set) => ({
   carbonScore: 0,
   totalEmissionsToday: 0,
   dailyBudget: DAILY_BUDGET_KG,

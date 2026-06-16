@@ -64,8 +64,9 @@ Respond with ONLY the message text, nothing else.`;
     await webpush.sendNotification(pushSubscription, payload);
 
     return NextResponse.json({ success: true, message: welcomeMessage });
-  } catch (error: any) {
-    console.error("Welcome nudge error:", error);
-    return NextResponse.json({ error: error.message || "Failed to send welcome push" }, { status: 500 });
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error("Welcome nudge error:", err);
+    return NextResponse.json({ error: err.message || "Failed to send welcome push" }, { status: 500 });
   }
 }
