@@ -9,9 +9,6 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy';
 // Initialize Supabase with the Service Role Key to bypass RLS for background jobs
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-const apiKey = process.env.GEMINI_API_KEY!;
-const genAI = new GoogleGenerativeAI(apiKey);
-
 // Configure web-push
 webpush.setVapidDetails(
   'mailto:test@example.com',
@@ -38,6 +35,8 @@ export async function GET(req: Request) {
 
     let aiMessage = "";
     try {
+      const apiKey = process.env.GEMINI_API_KEY!;
+      const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       
       let stateDesc = "";
