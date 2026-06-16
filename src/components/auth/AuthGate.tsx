@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { motion } from "framer-motion";
 import { PiPlantFill } from "react-icons/pi";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useCarbonStore } from "@/store/carbon-store";
 
 export default function AuthGate({ children }: { children: React.ReactNode }) {
@@ -70,6 +71,25 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const handleOAuthLogin = async (provider: "google" | "github") => {
+    setErrorMsg("");
+    setSuccessMsg("");
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
+      if (error) throw error;
+    } catch (err: any) {
+      setErrorMsg(err.message || `Failed to sign in with ${provider}`);
+      setIsSubmitting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center text-[var(--text-muted)]">
@@ -128,16 +148,44 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
+              className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
             >
               {isSubmitting ? "Processing..." : (isSignUp ? "Sign Up" : "Sign In")}
             </button>
           </form>
 
+          <div className="relative my-6 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-[var(--border-subtle)]"></div>
+            </div>
+            <span className="relative px-3 bg-[var(--bg-primary)] text-xs text-[var(--text-muted)] uppercase tracking-wider">
+              Or continue with
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              onClick={() => handleOAuthLogin('google')}
+              disabled={isSubmitting}
+              className="flex items-center justify-center gap-2 py-3 px-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-[var(--border-subtle)] transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              <FaGoogle className="text-red-400 text-lg" />
+              <span>Google</span>
+            </button>
+            <button
+              onClick={() => handleOAuthLogin('github')}
+              disabled={isSubmitting}
+              className="flex items-center justify-center gap-2 py-3 px-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-[var(--border-subtle)] transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              <FaGithub className="text-[var(--text-primary)] text-lg" />
+              <span>GitHub</span>
+            </button>
+          </div>
+
           <div className="mt-6 text-center">
             <button 
               onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(""); setSuccessMsg(""); }}
-              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors cursor-pointer"
             >
               {isSignUp ? "Already have an account? Sign In" : "Need an account? Sign Up"}
             </button>
