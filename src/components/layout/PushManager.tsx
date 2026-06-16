@@ -64,6 +64,25 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
 
       if (error) throw new Error("Failed to save subscription to database");
       
+      // Trigger instant welcome notification from Gemini
+      try {
+        await fetch('/api/welcome-nudge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subscription: {
+              endpoint: sub.endpoint,
+              keys: {
+                auth: subData.keys?.auth || "",
+                p256dh: subData.keys?.p256dh || ""
+              }
+            }
+          })
+        });
+      } catch (welcomeErr) {
+        console.error("Welcome notification error:", welcomeErr);
+      }
+      
       showStatus("Subscribed successfully!");
     } catch (err: any) {
       if (Notification.permission === 'denied' || err.name === 'NotAllowedError' || err.message?.includes('permission denied')) {
