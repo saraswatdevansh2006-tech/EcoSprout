@@ -50,6 +50,9 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+          }
         });
         if (error) throw error;
         setSuccessMsg("Check your email for the confirmation link!");
