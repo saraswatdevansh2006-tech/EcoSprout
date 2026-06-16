@@ -1,26 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ─── Design Tokens ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #0b0f1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a2035;
+  --bg-card-hover: #1f2847;
+  --bg-glass: rgba(26, 32, 53, 0.7);
+
+  --text-primary: #f0f4ff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --accent-green: #34d399;
+  --accent-green-glow: rgba(52, 211, 153, 0.25);
+  --accent-emerald: #10b981;
+  --accent-amber: #fbbf24;
+  --accent-amber-glow: rgba(251, 191, 36, 0.2);
+  --accent-red: #f87171;
+  --accent-red-glow: rgba(248, 113, 113, 0.2);
+  --accent-blue: #60a5fa;
+  --accent-purple: #a78bfa;
+
+  --border-subtle: rgba(148, 163, 184, 0.08);
+  --border-active: rgba(52, 211, 153, 0.3);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-glow-green: 0 0 20px rgba(52, 211, 153, 0.15), 0 0 60px rgba(52, 211, 153, 0.05);
+  --shadow-glow-amber: 0 0 20px rgba(251, 191, 36, 0.15), 0 0 60px rgba(251, 191, 36, 0.05);
+  --shadow-glow-red: 0 0 20px rgba(248, 113, 113, 0.15), 0 0 60px rgba(248, 113, 113, 0.05);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base Styles ─── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+/* ─── Glass Card ─── */
+.glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* ─── Status Glow Ring ─── */
+.glow-ring-green {
+  box-shadow: var(--shadow-glow-green);
+  border-color: var(--accent-green);
+}
+.glow-ring-amber {
+  box-shadow: var(--shadow-glow-amber);
+  border-color: var(--accent-amber);
+}
+.glow-ring-red {
+  box-shadow: var(--shadow-glow-red);
+  border-color: var(--accent-red);
+}
+
+/* ─── Animations ─── */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes slideUp {
+  0% { transform: translate(-50%, 20px); opacity: 0; }
+  100% { transform: translate(-50%, 0); opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ─── Gradient Utilities ─── */
+.gradient-text-green {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-emerald));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-warm {
+  background: linear-gradient(135deg, var(--accent-amber), #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-danger {
+  background: linear-gradient(135deg, var(--accent-red), #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Notification Toast ─── */
+.notification-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.notification-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* ─── Canvas Container ─── */
+.canvas-container {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: radial-gradient(ellipse at center bottom, #1a3a2a 0%, var(--bg-primary) 70%);
 }
