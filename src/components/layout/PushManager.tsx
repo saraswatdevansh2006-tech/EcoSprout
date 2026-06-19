@@ -183,6 +183,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
               <div className="flex w-full gap-3">
                 <button
                   onClick={() => setShowAutoPrompt(false)}
+                  aria-label="Dismiss notification prompt"
                   className="flex-1 py-3 px-4 rounded-xl text-sm font-medium text-[var(--text-muted)] hover:bg-white/5 transition-colors"
                 >
                   Not Now
@@ -190,6 +191,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
                 <button
                   onClick={subscribeButtonOnClick}
                   disabled={isLoading}
+                  aria-label="Enable daily push notifications"
                   className="flex-1 py-3 px-4 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white transition-colors flex items-center justify-center"
                 >
                   {isLoading ? "Enabling..." : "Enable"}
@@ -226,6 +228,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
               <button
                 onClick={subscribeButtonOnClick}
                 disabled={isLoading}
+                aria-label="Enable push notifications"
                 className="w-full text-left px-4 py-2 text-xs font-medium text-[var(--text-muted)] hover:bg-white/[0.04] hover:text-[var(--text-primary)] rounded-lg transition-colors disabled:opacity-50"
               >
                 {isLoading ? "Enabling..." : "Enable Push Notifications"}
@@ -250,6 +253,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
                     }
                   }}
                   disabled={isLoading}
+                  aria-label="Send test push notification"
                   className="w-full text-left px-4 py-2 text-xs font-medium text-[var(--text-muted)] hover:bg-white/[0.04] hover:text-[var(--text-primary)] rounded-lg transition-colors disabled:opacity-50"
                 >
                   {isLoading ? "Sending..." : "Test Notification"}
@@ -257,6 +261,7 @@ export default function PushManager({ isVisible = true }: { isVisible?: boolean 
                 <button
                   onClick={unsubscribeButtonOnClick}
                   disabled={isLoading}
+                  aria-label="Disable push notifications"
                   className="w-full text-left px-4 py-2 text-xs font-medium text-red-400 hover:bg-red-400/10 rounded-lg transition-colors disabled:opacity-50"
                 >
                   Disable Notifications

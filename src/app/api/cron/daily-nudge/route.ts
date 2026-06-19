@@ -13,6 +13,11 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const DAILY_BUDGET_KG = 6;
 
+/**
+ * GET handler for executing the daily nudge cron job.
+ * Calculates user's 30-day carbon footprint and broadcasts a status update notification to all subscribers.
+ * @returns {Promise<NextResponse>} A JSON response indicating status and number of messages sent.
+ */
 export async function GET() {
   try {
     // 1. Fetch transactions from the last 30 days to calculate score

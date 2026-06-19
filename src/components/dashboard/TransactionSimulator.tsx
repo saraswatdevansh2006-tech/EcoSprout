@@ -55,6 +55,7 @@ function TransactionCard({
     <button
       onClick={() => onSimulate(template)}
       disabled={isProcessing}
+      aria-label={`Simulate ${template.label} purchase`}
       className="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl
                  bg-white/[0.03] border border-[var(--border-subtle)]
                  hover:bg-white/[0.06] hover:border-white/[0.12]
@@ -225,6 +226,7 @@ export default function TransactionSimulator() {
             <button
               key={cat.key}
               onClick={() => setActiveFilter(cat.key)}
+              aria-label={`Filter by ${cat.label}`}
               className={`px-3 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 activeFilter === cat.key
                   ? "bg-white/[0.1] text-[var(--text-primary)] border border-white/[0.12]"

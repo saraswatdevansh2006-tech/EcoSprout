@@ -121,9 +121,24 @@ export const useCarbonStore = create<CarbonState>((set) => ({
   timePhase: getTimePhase(),
   user: null,
 
+  /**
+   * Sets the currently active user session.
+   * @param {User | null} user - The Supabase user object or null if logged out.
+   * @returns {void}
+   */
   setUser: (user) => set({ user }),
+
+  /**
+   * Sets the active view of the application dashboard.
+   * @param {"dashboard" | "analytics"} view - The target view layout.
+   * @returns {void}
+   */
   setActiveView: (view) => set({ activeView: view }),
 
+  /**
+   * Starts the time synchronizer loop to check and update timePhase state.
+   * @returns {void}
+   */
   startTimeSync: () => {
     // Update immediately
     set({ timePhase: getTimePhase() });
@@ -133,6 +148,10 @@ export const useCarbonStore = create<CarbonState>((set) => ({
     }, 60000);
   },
 
+  /**
+   * Fetches the user's transactions from Supabase and computes carbon metrics.
+   * @returns {Promise<void>} Resolves when state is updated.
+   */
   fetchData: async () => {
     set({ isLoadingData: true });
     try {
@@ -169,6 +188,11 @@ export const useCarbonStore = create<CarbonState>((set) => ({
     }
   },
 
+  /**
+   * Adds a new transaction, updates metrics immediately (optimistic UI), and persists it to Supabase.
+   * @param {Omit<Transaction, "id" | "timestamp">} tx - The transaction details without auto-generated fields.
+   * @returns {Promise<void>} Resolves when Supabase insert completes.
+   */
   addTransaction: async (tx) => {
     const newTx: Transaction = {
       ...tx,
@@ -205,6 +229,11 @@ export const useCarbonStore = create<CarbonState>((set) => ({
     }
   },
 
+  /**
+   * Adds a notification/nudge message to the notification feed history.
+   * @param {Omit<Notification, "id" | "timestamp">} notif - The notification message payload.
+   * @returns {void}
+   */
   addNotification: (notif) =>
     set((state) => {
       const newNotif: Notification = {
@@ -215,6 +244,10 @@ export const useCarbonStore = create<CarbonState>((set) => ({
       return { notifications: [newNotif, ...state.notifications] };
     }),
 
+  /**
+   * Resets today's tracked carbon scores and emissions back to 0.
+   * @returns {void}
+   */
   resetDay: () =>
     set({
       carbonScore: 0,

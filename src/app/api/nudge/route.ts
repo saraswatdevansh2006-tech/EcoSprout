@@ -51,6 +51,11 @@ Respond with ONLY the notification text, nothing else. No quotes, no labels, no 
 }
 
 /* ─── API Route Handler ─── */
+/**
+ * POST handler for generating a personalized transaction nudge from Sprout using Gemini.
+ * @param {NextRequest} request - The incoming Next.js API request containing the carbon transaction details.
+ * @returns {Promise<NextResponse>} A JSON response containing Sprout's reaction message.
+ */
 export async function POST(request: NextRequest) {
   let body: NudgeRequest | null = null;
 

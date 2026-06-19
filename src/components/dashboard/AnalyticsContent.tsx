@@ -172,7 +172,7 @@ export default function AnalyticsContent() {
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-8 py-6 space-y-6">
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6" aria-label="Carbon Statistics and Trends">
           {/* Monthly Score Card */}
           <motion.div 
             className="glass-card p-6 flex flex-col justify-center items-center text-center col-span-1"
@@ -207,17 +207,17 @@ export default function AnalyticsContent() {
           >
             <WeeklyChart data={weeklyEmissions} budget={dailyBudget} />
           </motion.div>
-        </div>
+        </section>
 
-        {/* Sprout's Motivation */}
-        <motion.div
+        <motion.section
           custom={3}
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
+          aria-label="Eco-Plant Status and Tips"
         >
           <SproutMotivation monthlyScore={monthlyScore} weeklyEmissions={weeklyEmissions} />
-        </motion.div>
+        </motion.section>
 
       </div>
     </main>

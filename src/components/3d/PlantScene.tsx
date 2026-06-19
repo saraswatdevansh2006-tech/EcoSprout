@@ -17,32 +17,38 @@ function CanvasLoader() {
   );
 }
 
-/* ─── PlantScene — the main R3F Canvas ─── */
 export default function PlantScene({ healthState }: { healthState: HealthState }) {
   const timePhase = useCarbonStore((state) => state.timePhase);
 
   return (
-    <Canvas
-      shadows
-      camera={{ position: [0, 1.0, 3.5], fov: 42 }}
-      gl={{ antialias: true, alpha: false }}
-      dpr={[1, 2]}
-      style={{ width: "100%", height: "100%" }}
+    <div 
+      className="relative w-full h-full"
+      role="img" 
+      aria-label="Interactive 3D visualization of EcoSprout plant"
     >
-      <Suspense fallback={<CanvasLoader />}>
-        <SceneEnvironment healthState={healthState} timePhase={timePhase} />
-        <Plant healthState={healthState} timePhase={timePhase} />
-      </Suspense>
+      <span className="sr-only">Your plant is currently {healthState}</span>
+      <Canvas
+        shadows
+        camera={{ position: [0, 1.0, 3.5], fov: 42 }}
+        gl={{ antialias: true, alpha: false }}
+        dpr={[1, 2]}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <Suspense fallback={<CanvasLoader />}>
+          <SceneEnvironment healthState={healthState} timePhase={timePhase} />
+          <Plant healthState={healthState} timePhase={timePhase} />
+        </Suspense>
 
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 2.2}
-        minAzimuthAngle={-Math.PI / 6}
-        maxAzimuthAngle={Math.PI / 6}
-        rotateSpeed={0.4}
-      />
-    </Canvas>
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 2.2}
+          minAzimuthAngle={-Math.PI / 6}
+          maxAzimuthAngle={Math.PI / 6}
+          rotateSpeed={0.4}
+        />
+      </Canvas>
+    </div>
   );
 }

@@ -150,6 +150,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             <button 
               type="submit" 
               disabled={isSubmitting}
+              aria-label={isSignUp ? "Submit Sign Up form" : "Submit Sign In form"}
               className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
             >
               {isSubmitting ? "Processing..." : (isSignUp ? "Sign Up" : "Sign In")}
@@ -169,6 +170,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             <button
               onClick={() => handleOAuthLogin('google')}
               disabled={isSubmitting}
+              aria-label="Sign in with Google"
               className="flex items-center justify-center gap-2 py-3 px-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-[var(--border-subtle)] transition-colors disabled:opacity-50 cursor-pointer"
             >
               <FaGoogle className="text-red-400 text-lg" />
@@ -177,6 +179,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             <button
               onClick={() => handleOAuthLogin('github')}
               disabled={isSubmitting}
+              aria-label="Sign in with GitHub"
               className="flex items-center justify-center gap-2 py-3 px-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-[var(--border-subtle)] transition-colors disabled:opacity-50 cursor-pointer"
             >
               <FaGithub className="text-[var(--text-primary)] text-lg" />
@@ -187,6 +190,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
           <div className="mt-6 text-center">
             <button 
               onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(""); setSuccessMsg(""); }}
+              aria-label={isSignUp ? "Switch to Sign In mode" : "Switch to Sign Up mode"}
               className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors cursor-pointer"
             >
               {isSignUp ? "Already have an account? Sign In" : "Need an account? Sign Up"}

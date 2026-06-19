@@ -28,6 +28,7 @@ function NavItem({
   return (
     <button
       onClick={onClick}
+      aria-label={label}
       className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
         active
           ? "bg-white/[0.08] text-[var(--text-primary)]"
@@ -256,12 +257,14 @@ export default function Sidebar() {
             >
               <button
                 onClick={clearData}
+                aria-label="Clear All Data"
                 className="w-full text-left px-4 py-2 text-xs font-medium text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
               >
                 Clear All Data
               </button>
               <button
                 onClick={logOut}
+                aria-label="Log Out"
                 className="w-full text-left px-4 py-2 text-xs font-medium text-[var(--text-muted)] hover:bg-white/[0.04] hover:text-[var(--text-primary)] rounded-lg transition-colors"
               >
                 Log Out
@@ -277,6 +280,7 @@ export default function Sidebar() {
           onClick={resetDay}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          aria-label="Reset Day"
           className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-white/[0.04] transition-all duration-200 cursor-pointer"
         >
           <HiOutlineArrowPath className="text-base" />

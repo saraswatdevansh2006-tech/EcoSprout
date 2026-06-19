@@ -43,6 +43,11 @@ Respond with ONLY the spoken message, nothing else.`;
 }
 
 /* ─── API Route Handler ─── */
+/**
+ * POST handler for generating weekly analytics insights from Sprout using Gemini.
+ * @param {NextRequest} request - The incoming API request containing weekly emissions and monthly score.
+ * @returns {Promise<NextResponse>} A JSON response containing Sprout's analysis.
+ */
 export async function POST(request: NextRequest) {
   let body: AnalyticsRequest | null = null;
 

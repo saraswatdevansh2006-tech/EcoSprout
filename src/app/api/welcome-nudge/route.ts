@@ -12,6 +12,12 @@ interface WelcomeRequest {
   };
 }
 
+/**
+ * POST handler for sending an instant welcome push notification to a newly subscribed user.
+ * Generates an eager, welcoming greeting from Sprout using Gemini and delivers it via Web Push.
+ * @param {NextRequest} request - The incoming API request containing Web Push subscription keys.
+ * @returns {Promise<NextResponse>} A JSON response confirming successful delivery.
+ */
 export async function POST(request: NextRequest) {
   try {
     const body: WelcomeRequest = await request.json();

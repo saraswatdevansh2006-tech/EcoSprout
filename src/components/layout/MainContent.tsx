@@ -185,7 +185,7 @@ function StatsCards() {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <section className="grid grid-cols-3 gap-4" aria-label="Emissions Stats">
       {cards.map((card, i) => (
         <motion.div
           key={card.label}
@@ -215,7 +215,7 @@ function StatsCards() {
           <p className="text-[11px] text-[var(--text-muted)] mt-1">{card.sub}</p>
         </motion.div>
       ))}
-    </div>
+    </section>
   );
 }
 
@@ -249,15 +249,16 @@ export default function MainContent() {
             })}
           </p>
         </div>
-        <motion.div
-          className="flex items-center gap-3"
+        <motion.button
+          className="flex items-center gap-3 border-none bg-transparent outline-none cursor-pointer"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="User Profile"
         >
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white text-sm font-bold shadow-lg cursor-pointer">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">
             {userInitial}
           </div>
-        </motion.div>
+        </motion.button>
       </motion.header>
 
       {/* Content */}
@@ -271,16 +272,17 @@ export default function MainContent() {
         <StatsCards />
 
         {/* Transaction Simulator + History */}
-        <motion.div
+        <motion.section
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
           custom={5}
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
+          aria-label="Transactions Log and Simulator"
         >
           <TransactionSimulator />
           <TransactionHistory />
-        </motion.div>
+        </motion.section>
       </div>
     </main>
   );
